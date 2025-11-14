@@ -1,25 +1,24 @@
 // Ejercicio 1
 
-def myMethod1Pass(datos: List[Double]): Double = {
-  val logs: List[Double] =
-    datos.map((x: Double) => math.log(x))
+def myMethod(datos: List[Double]): Double = {
+  val logs: List[Double] = datos.map((x: Double) => math.log(x))
 
-  val init: (Double, Double, Int) = (0.0, 0.0, 0)
-  val acumulado: (Double, Double, Int) =
-    logs.foldLeft(init) {
-      case ((s: Double, s2: Double, k: Int), l: Double) =>
-        (s + l, s2 + l * l, k + 1)
-    }
+  val n: Int = logs.size
+  val sumaLogs: Double = logs.sum
+  val promedioLog: Double = sumaLogs / n.toDouble
 
-  val sum: Double = acumulado._1
-  val sum2: Double = acumulado._2
-  val n: Int = acumulado._3
+  val cuadrados: List[Double] = logs.map((l: Double) => {
+    val diferencia: Double = l - promedioLog
+    val cuadrado: Double = diferencia * diferencia
+    cuadrado
+  })
+  val sumaCuadrados: Double = cuadrados.sum
 
-  val mu: Double = sum / n.toDouble
-  val varianza: Double = (sum2 / n.toDouble) - (mu * mu)
+  val varianza: Double = sumaCuadrados / n.toDouble
   val desviacionEstandar: Double = math.sqrt(varianza)
   desviacionEstandar
 }
+
 // Ejercicio 2
 
 def ajustarPrecios(precios: List[Double], politica: Double => Double): List[Double] = {
